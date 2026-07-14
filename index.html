@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 降本增效新闻 & 开源工具聚合</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar/Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>AI EffiHub</h1>
+                    <p>企业降本增效 & 员工提效技术雷达</p>
+                </div>
+            </div>
+
+            <!-- Controls (Search & Refresh) -->
+            <div class="header-controls">
+                <div class="last-updated" id="last-updated-text">上次更新: 从未更新</div>
+                
+                <button class="btn btn-primary" id="btn-refresh">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38l5.67-5.67" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>同步最新资讯</span>
+                </button>
+
+                <button class="btn btn-secondary btn-icon" id="btn-settings" title="配置 API Key">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Search and Filters Section -->
+        <section class="filters-section">
+            <div class="search-bar">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" id="search-input" placeholder="输入关键字搜索新闻或开源工具...">
+            </div>
+
+            <div class="tabs-container">
+                <div class="tab active" data-tab="all">
+                    <span>全部资讯</span>
+                    <span class="badge" id="badge-all">0</span>
+                </div>
+                <div class="tab" data-tab="enterprise_efficiency">
+                    <span>企业降本</span>
+                    <span class="badge" id="badge-enterprise">0</span>
+                </div>
+                <div class="tab" data-tab="individual_productivity">
+                    <span>员工提效</span>
+                    <span class="badge" id="badge-individual">0</span>
+                </div>
+                <div class="tab" data-tab="github_trend">
+                    <span>开源趋势</span>
+                    <span class="badge" id="badge-github">0</span>
+                </div>
+                <div class="tab" data-tab="starred">
+                    <span>我的收藏</span>
+                    <span class="badge" id="badge-starred">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Loading Status Indicator (Overlay or inline block) -->
+            <div id="loading-overlay" class="loading-overlay hidden">
+                <div class="loading-card">
+                    <div class="spinner">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                    <h3>正在拉取与分析最新科技动态</h3>
+                    <p class="loading-subtext">我们正在从 GitHub 和 Hacker News 搜集最新的 AI 资讯...</p>
+                    
+                    <!-- Progress Steps -->
+                    <ul class="progress-steps">
+                        <li id="step-hn" class="step pending">
+                            <span class="step-dot"></span>
+                            <span class="step-label">获取 Hacker News 最新 AI 报道</span>
+                        </li>
+                        <li id="step-github" class="step pending">
+                            <span class="step-dot"></span>
+                            <span class="step-label">获取 GitHub 最新 Trending 库</span>
+                        </li>
+                        <li id="step-merge" class="step pending">
+                            <span class="step-dot"></span>
+                            <span class="step-label">去重与过滤高相关度技术源</span>
+                        </li>
+                        <li id="step-deepseek" class="step pending">
+                            <span class="step-dot"></span>
+                            <span class="step-label">使用 DeepSeek 提炼降本增效价值点</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state">
+                <div class="empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2>暂无数据</h2>
+                <p>点击右上角的 “配置 API Key” 进行初始化，然后点击 “同步最新资讯” 开始探索 AI 的生产力革命。</p>
+                <button class="btn btn-primary" id="btn-empty-settings">
+                    配置 API Key
+                </button>
+            </div>
+
+            <!-- News Grid -->
+            <div id="news-grid" class="news-grid hidden">
+                <!-- Cards will be dynamically inserted here -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>数据源: Hacker News API & GitHub Search API &copy; 2026. 所有分析基于您本人的 DeepSeek API 秘钥完成，绝对隐私安全。</p>
+        </footer>
+    </div>
+
+    <!-- API Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>DeepSeek API 配置</h2>
+                <button class="btn-close" id="btn-close-modal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <svg class="icon inline-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <strong>数据隐私声明</strong>: API 密钥安全保存在您浏览器的 LocalStorage 中，每次请求直接发送到您指定的 API 端点，绝不经过任何第三方服务器。
+                </div>
+                
+                <div class="form-group">
+                    <label for="input-api-key">DeepSeek API Key *</label>
+                    <input type="password" id="input-api-key" placeholder="sk-..." class="form-input">
+                    <span class="help-text">请前往 <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">DeepSeek 开放平台</a> 申请 API 密钥。</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-api-url">API Endpoint Base URL</label>
+                    <input type="text" id="input-api-url" value="https://api.deepseek.com/v1" class="form-input">
+                    <span class="help-text">默认为官方端点。若使用代理或第三方兼容服务（如 OpenRouter），请修改此处。</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-api-model">API Model</label>
+                    <input type="text" id="input-api-model" value="deepseek-chat" class="form-input">
+                    <span class="help-text">推荐使用 `deepseek-chat` (DeepSeek-V3)，兼顾速度、成本与分析质量。</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-api-depth">同步模式 (节省 Token 优化)</label>
+                    <select id="input-api-depth" class="form-input">
+                        <option value="saving">极度省流模式 (拉取并分析最热 10 条，极简生成，省约 60% Token)</option>
+                        <option value="balanced" selected>均衡推荐模式 (拉取并分析最热 18 条，兼顾价值度与摘要完整度)</option>
+                        <option value="deep">深度雷达模式 (拉取并分析最热 30 条，提供最完整的背景与功能解读)</option>
+                    </select>
+                    <span class="help-text">控制发送给大模型的源数据数量和生成的内容长度，可大幅减少 Token 费用。</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-settings">取消</button>
+                <button class="btn btn-primary" id="btn-save-settings">保存配置</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
