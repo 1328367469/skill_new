@@ -50,6 +50,13 @@
 
         <!-- Search and Filters Section -->
         <section class="filters-section">
+            <div class="scope-container">
+                <div class="scope-selector">
+                    <button class="scope-btn active" data-scope="latest">最新同步雷达</button>
+                    <button class="scope-btn" data-scope="library">历史归档资料库</button>
+                </div>
+            </div>
+
             <div class="search-bar">
                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,7 +67,7 @@
 
             <div class="tabs-container">
                 <div class="tab active" data-tab="all">
-                    <span>全部资讯</span>
+                    <span>全部类别</span>
                     <span class="badge" id="badge-all">0</span>
                 </div>
                 <div class="tab" data-tab="enterprise_efficiency">
@@ -106,7 +113,7 @@
                         </li>
                         <li id="step-merge" class="step pending">
                             <span class="step-dot"></span>
-                            <span class="step-label">去重与过滤高相关度技术源</span>
+                            <span class="step-label">去重与过滤历史已存技术源</span>
                         </li>
                         <li id="step-deepseek" class="step pending">
                             <span class="step-dot"></span>
@@ -131,9 +138,46 @@
                 </button>
             </div>
 
-            <!-- News Grid -->
-            <div id="news-grid" class="news-grid hidden">
-                <!-- Cards will be dynamically inserted here -->
+            <!-- Split Panels Container (News vs Tools) -->
+            <div id="panels-container" class="panels-container hidden">
+                <!-- Left Column: News -->
+                <div class="panel news-panel">
+                    <div class="panel-header">
+                        <div class="panel-title-area">
+                            <div class="panel-icon-wrap news-color">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 12H7M16 16H7M16 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h2>AI 效率资讯新闻</h2>
+                        </div>
+                        <span class="panel-count-badge" id="badge-news-count">0</span>
+                    </div>
+                    <div id="news-list" class="panel-list">
+                        <!-- News cards will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Right Column: Tools & Platforms -->
+                <div class="panel tools-panel">
+                    <div class="panel-header">
+                        <div class="panel-title-area">
+                            <div class="panel-icon-wrap tools-color">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h2>AI 效率软件与平台</h2>
+                        </div>
+                        <span class="panel-count-badge" id="badge-tools-count">0</span>
+                    </div>
+                    <div id="tools-list" class="panel-list">
+                        <!-- Tool cards will be inserted here -->
+                    </div>
+                </div>
             </div>
         </main>
 
