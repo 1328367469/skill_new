@@ -1,0 +1,14 @@
+python_env/
+clean_python/
+server_stdout.log
+server_stderr.log
+python_embed.zip
+test_port.py
+test_socket.py
+download_python.py
+.git/
+*.db
+*.log
+docker_build.bat
+start_server.bat
+git_push.bat

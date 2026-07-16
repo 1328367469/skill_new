@@ -525,7 +525,7 @@ if __name__ == '__main__':
     class SingleThreadedHTTPServer(http.server.HTTPServer):
         allow_reuse_address = True
 
-    with SingleThreadedHTTPServer(("127.0.0.1", PORT), APIRequestHandler) as httpd:
+    with SingleThreadedHTTPServer(("", PORT), APIRequestHandler) as httpd:
         print(f"==================================================")
         print(f" AI EffiHub Backend & Database Server running")
         print(f" URL: http://localhost:{PORT}")
